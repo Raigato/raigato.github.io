@@ -1,43 +1,40 @@
-# Astro Starter Kit: Minimal
+# Raigato — Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
+Personal portfolio site for Raigato, Fullstack Developer.
+
+Built with Astro, Tailwind CSS v4, and GSAP. Deployed to GitHub Pages.
+
+## Stack
+
+- [Astro](https://astro.build) — static site framework
+- [Tailwind CSS v4](https://tailwindcss.com) — utility-first styling
+- [GSAP](https://gsap.com) — animations (terminal typewriter, ASCII reveal)
+- [Biome](https://biomejs.dev) — linting and formatting
+- [PostHog](https://posthog.com) — cookieless analytics
+
+## Project Structure
+
+```
+src/
+├── components/   # Astro components (Hero, About, Projects, Experience, Contact, …)
+├── data/         # Config, projects, and experience data
+├── pages/        # index.astro
+└── styles/       # global.css
+public/           # Static assets
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+All commands are run from the root of the project:
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command           | Action                                   |
+| :---------------- | :--------------------------------------- |
+| `pnpm install`    | Install dependencies                     |
+| `pnpm dev`        | Start local dev server at localhost:4321 |
+| `pnpm build`      | Build production site to ./dist/         |
+| `pnpm preview`    | Preview the production build locally     |
+| `pnpm check`      | Lint, format, and type-check             |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Development
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Pre-commit hooks (Husky) run Biome checks automatically on staged files.
