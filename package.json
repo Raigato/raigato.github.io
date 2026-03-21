@@ -11,8 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "biome lint .",
-    "format": "biome format --write .",
-    "generate:ascii": "node scripts/ascii-gen.js"
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -24,6 +23,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",
+    "@types/node": "^25.5.0",
     "sharp": "^0.34.5"
   }
 }

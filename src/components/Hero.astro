@@ -1,30 +1,62 @@
 ---
 import { config } from "../data/config";
-import { readFileSync } from "fs";
-import { resolve } from "path";
+import sharp from "sharp";
+import { join } from "path";
 
-const ascii = readFileSync(resolve("src/data/ascii.txt"), "utf-8");
+const CHARS = "<>{}[]()#.,:;=+-*/\|&@!?%$\"'`~^_";
+const WIDTH = 60;
+
+const src = join(process.cwd(), "public/images/portrait.jpg");
+const img = sharp(src);
+const meta = await img.metadata();
+const newH = Math.floor(
+  ((meta.height ?? WIDTH) / (meta.width ?? WIDTH)) * WIDTH,
+);
+
+const { data, info } = await img
+  .resize(WIDTH, newH)
+  .raw()
+  .toBuffer({ resolveWithObject: true });
+
+type Cell = [number, number, number, number]; // [r, g, b, charCode]
+const colorRows: Cell[][] = [];
+for (let y = 0; y < newH; y++) {
+  const row: Cell[] = [];
+  for (let x = 0; x < WIDTH; x++) {
+    const i = (y * WIDTH + x) * info.channels;
+    const r = data[i],
+      g = data[i + 1],
+      b = data[i + 2];
+    const brightness = (r + g + b) / 3;
+    const charIdx = Math.floor((brightness / 255) * (CHARS.length - 1));
+    row.push([r, g, b, CHARS.charCodeAt(charIdx)]);
+  }
+  colorRows.push(row);
+}
+
+const colorData = JSON.stringify(colorRows);
 ---
 
-<section
-  id="hero"
-  class="min-h-screen flex items-center px-6 pt-20 pb-12"
->
-  <div class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
+<section id="hero" class="min-h-screen flex items-center px-6 pt-20 pb-12">
+  <div
+    class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-0 md:gap-6 items-center"
+  >
     <!-- ASCII Portrait -->
-    <div class="ascii-wrap group cursor-default select-none">
-      <pre
+    <div class="ascii-wrap group cursor-default select-none order-2 md:order-1">
+      <canvas
         id="ascii-art"
-        class="font-mono text-[5px] leading-tight text-white/70 whitespace-pre overflow-hidden hidden md:block"
-        aria-label="ASCII portrait of Gabriel Raymondou"
-      >{ascii}</pre>
-      <p class="font-mono text-[10px] text-white/20 mt-2 tracking-widest hidden md:block">[ HOVER ]</p>
+        class="block"
+        aria-label="ASCII portrait of Gabriel Raymondou"></canvas>
+      <script type="application/json" id="ascii-colors" set:html={colorData} />
+      <p
+        class="font-mono text-[10px] text-white/20 mt-2 tracking-widest hidden md:block"
+      >
+        [ HOVER ]
+      </p>
     </div>
-
     <!-- Terminal Typewriter -->
-    <div class="terminal font-mono">
-      <p class="text-white/30 text-sm mb-4">~/gabriel $</p>
+    <div class="terminal font-mono order-1 md:order-2 min-h-[220px]">
+      <p class="text-white/30 text-sm mb-4">~/raigato $</p>
       <div id="terminal-lines" class="space-y-1 text-sm">
         <!-- Lines injected by GSAP -->
       </div>
@@ -43,101 +75,161 @@ const ascii = readFileSync(resolve("src/data/ascii.txt"), "utf-8");
         </a>
       </div>
     </div>
-
   </div>
 </section>
 
+<style>
+  #ascii-art {
+    opacity: 1;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+</style>
+
 <script>
-  import { gsap } from 'gsap'
+  import { gsap } from "gsap";
 
   // — Terminal typewriter —
-  const terminalLines = document.getElementById('terminal-lines')!
-  const terminalCtas = document.getElementById('terminal-ctas')!
+  const terminalLines = document.getElementById("terminal-lines")!;
+  const terminalCtas = document.getElementById("terminal-ctas")!;
 
   const lines = [
-    { key: 'name',     val: 'Gabriel Raymondou',  color: '',                      blink: false },
-    { key: 'role',     val: 'Fullstack Dev',       color: '',                      blink: false },
-    { key: 'location', val: 'Cannes, France',      color: '',                      blink: false },
-    { key: 'status',   val: 'Available ●',         color: 'var(--accent-green)',   blink: true  },
-  ]
+    { key: "name", val: "Gabriel Raymondou", color: "", blink: false },
+    { key: "role", val: "Fullstack Dev", color: "", blink: false },
+    { key: "location", val: "Cannes, France", color: "", blink: false },
+    {
+      key: "status",
+      val: "Available ●",
+      color: "var(--accent-green)",
+      blink: true,
+    },
+  ];
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
-  function typeLine(line: { key: string; val: string; color: string; blink: boolean }): Promise<void> {
+  function typeLine(line: {
+    key: string;
+    val: string;
+    color: string;
+    blink: boolean;
+  }): Promise<void> {
     return new Promise((resolve) => {
-      const el = document.createElement('div')
-      el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || 'inherit'}"></span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`
-      terminalLines.appendChild(el)
+      const el = document.createElement("div");
+      el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || "inherit"}"></span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`;
+      terminalLines.appendChild(el);
 
-      const valSpan = el.querySelectorAll('span')[1] as HTMLElement
-      const cursor = el.querySelector('.cursor') as HTMLElement
+      const valSpan = el.querySelectorAll("span")[1] as HTMLElement;
+      const cursor = el.querySelector(".cursor") as HTMLElement;
 
       function finalize() {
         if (line.blink) {
-          const text = line.val.slice(0, -1)
-          const dot = line.val.slice(-1)
-          valSpan.innerHTML = `${text}<span style="animation: blink 1.5s ease-in-out infinite">${dot}</span>`
+          const text = line.val.slice(0, -1);
+          const dot = line.val.slice(-1);
+          valSpan.innerHTML = `${text}<span style="animation: blink 1.5s ease-in-out infinite">${dot}</span>`;
         }
       }
 
       if (reducedMotion) {
-        valSpan.textContent = line.val
-        finalize()
-        cursor.style.display = 'none'
-        resolve()
-        return
+        valSpan.textContent = line.val;
+        finalize();
+        cursor.style.display = "none";
+        resolve();
+        return;
       }
 
-      let i = 0
+      let i = 0;
       const interval = setInterval(() => {
-        valSpan.textContent = line.val.slice(0, ++i)
+        valSpan.textContent = line.val.slice(0, ++i);
         if (i >= line.val.length) {
-          clearInterval(interval)
-          finalize()
-          cursor.style.display = 'none'
-          setTimeout(resolve, 200)
+          clearInterval(interval);
+          finalize();
+          cursor.style.display = "none";
+          setTimeout(resolve, 200);
         }
-      }, 60)
-    })
+      }, 60);
+    });
   }
 
   async function runTypewriter() {
-    if (!reducedMotion) await new Promise((r) => setTimeout(r, 400))
+    if (!reducedMotion) await new Promise((r) => setTimeout(r, 400));
     for (const line of lines) {
-      await typeLine(line)
+      await typeLine(line);
     }
-    gsap.to(terminalCtas, { opacity: 1, duration: reducedMotion ? 0 : 0.4, ease: 'power2.out' })
+    gsap.to(terminalCtas, {
+      opacity: 1,
+      duration: reducedMotion ? 0 : 0.4,
+      ease: "power2.out",
+    });
   }
 
-  runTypewriter()
+  runTypewriter();
 
-  // — ASCII glitch on hover —
-  const asciiEl = document.getElementById('ascii-art')!
-  const originalAscii = asciiEl.textContent ?? ''
-  const glitchChars = '░▒▓█▄▀■□▪▫'
-  let glitchInterval: ReturnType<typeof setInterval> | null = null
+  // — ASCII canvas reveal + hover glitch (full-color) —
+  type Cell = [number, number, number, number]; // [r, g, b, charCode]
+  const colorRows: Cell[][] = JSON.parse(
+    document.getElementById("ascii-colors")!.textContent!,
+  );
 
-  asciiEl.addEventListener('mouseenter', () => {
-    let ticks = 0
-    glitchInterval = setInterval(() => {
-      if (ticks++ > 5) {
-        clearInterval(glitchInterval!)
-        asciiEl.textContent = originalAscii
-        return
+  const canvas = document.getElementById("ascii-art") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
+
+  const FONT_SIZE = 14;
+  const FONT = `${FONT_SIZE}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+  const GLITCH_CHARS = "░▒▓█▄▀■□▪▫";
+
+  await document.fonts.ready;
+  ctx.font = FONT;
+  const charWidth = ctx.measureText("M").width;
+  const LINE_HEIGHT = charWidth; // square cells
+  const cols = colorRows[0]?.length ?? 0;
+
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = cols * charWidth * dpr;
+  canvas.height = colorRows.length * LINE_HEIGHT * dpr;
+  canvas.style.width = `${cols * charWidth}px`;
+  canvas.style.height = `${colorRows.length * LINE_HEIGHT}px`;
+  ctx.scale(dpr, dpr);
+
+  function drawFrame(revealRow: number) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT;
+
+    colorRows.forEach((row, rowIdx) => {
+      if (rowIdx > revealRow) return;
+      const y = rowIdx * LINE_HEIGHT + FONT_SIZE;
+      const isFrontier = rowIdx === revealRow;
+      let x = 0;
+      for (const [r, g, b, charCode] of row) {
+        ctx.fillStyle = r + g + b < 20 ? "#0a0a0a" : `rgb(${r},${g},${b})`;
+        const isGlitch = isFrontier && Math.random() < 0.5;
+        ctx.fillText(
+          isGlitch
+            ? GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+            : String.fromCharCode(charCode),
+          x,
+          y,
+        );
+        x += charWidth;
       }
-      asciiEl.textContent = originalAscii
-        .split('')
-        .map((ch) =>
-          ch !== '\n' && Math.random() < 0.04
-            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-            : ch,
-        )
-        .join('')
-    }, 50)
-  })
+    });
+  }
 
-  asciiEl.addEventListener('mouseleave', () => {
-    if (glitchInterval) clearInterval(glitchInterval)
-    asciiEl.textContent = originalAscii
-  })
+  const state = { row: 0 };
+  if (reducedMotion) {
+    drawFrame(colorRows.length);
+  } else {
+    gsap.to(state, {
+      row: colorRows.length - 1,
+      duration: 3.5,
+      ease: "power3.out",
+      onUpdate() {
+        drawFrame(Math.floor(state.row));
+      },
+      onComplete() {
+        drawFrame(colorRows.length);
+      },
+    });
+  }
 </script>
