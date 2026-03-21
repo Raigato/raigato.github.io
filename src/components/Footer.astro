@@ -9,8 +9,13 @@ const year = new Date().getFullYear();
     <span class="font-mono text-[0.55rem] text-white/20 tracking-widest uppercase">
       © {year} {config.name.toUpperCase()}
     </span>
-    <span class="font-mono text-[0.55rem] text-white/20 tracking-widest uppercase">
+    <a
+      href={config.repo}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="font-mono text-[0.55rem] text-white/20 hover:text-white/40 tracking-widest uppercase transition-colors"
+    >
       DESIGNED &amp; BUILT BY GR
-    </span>
+    </a>
   </div>
 </footer>
