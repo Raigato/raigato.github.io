@@ -53,5 +53,4 @@ export const projects: Project[] = [
     url: "https://mystudiz.com/",
     github: "https://github.com/Raigato/myStudizApp",
   },
-
 ];

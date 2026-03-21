@@ -12,6 +12,7 @@
     "astro": "astro",
     "lint": "biome lint .",
     "format": "biome format --write .",
+    "check": "biome check --write .",
     "prepare": "husky"
   },
   "dependencies": {
