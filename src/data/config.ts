@@ -10,6 +10,8 @@ export const config = {
   stack: [
     "Claude Code",
     "Generative AI",
+    "SEO",
+    "GEO",
     "TypeScript",
     "React",
     "Next.js",
