@@ -1,0 +1,40 @@
+---
+import { experiences } from "../data/experiences";
+---
+
+<section id="experience" aria-label="Experience" class="py-24 px-6 border-t border-[#1e1e1e]">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
+      <span>// EXPERIENCE</span><span>03 / 05</span>
+    </div>
+    <div id="experience-list" class="flex flex-col divide-y divide-[#1e1e1e]">
+      {experiences.map((exp) => (
+        <article class="experience-item py-8">
+          <h3 class="font-mono text-sm font-bold text-white mb-1 tracking-tight">{exp.title}</h3>
+          <p class="font-mono text-xs text-white/25 tracking-widest uppercase mb-3">
+            {exp.company} · {exp.period}
+          </p>
+          <p class="text-sm text-white/50 leading-relaxed">{exp.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const items = document.querySelectorAll("#experience-list .experience-item");
+  if (items.length > 0) {
+    gsap.from(items, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      ease: "power2.out",
+      stagger: 0.08,
+      scrollTrigger: { trigger: "#experience-list", start: "top 85%" },
+    });
+  }
+</script>

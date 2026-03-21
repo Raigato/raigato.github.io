@@ -8,6 +8,7 @@ export const config = {
   email: "gabriel.raymondou@gmail.com",
   available: true,
   stack: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Docker"],
+  repo: "https://github.com/Raigato/raigato.github.io",
   socials: {
     github: "https://github.com/raigato",
     linkedin: "https://linkedin.com/in/gabriel-raymondou",
