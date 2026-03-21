@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "biome lint .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",
     "@types/node": "^25.5.0",
+    "husky": "^9.1.7",
     "sharp": "^0.34.5"
   }
 }

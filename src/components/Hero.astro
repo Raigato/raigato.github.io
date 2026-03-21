@@ -1,9 +1,8 @@
 ---
-import { config } from "../data/config";
 import sharp from "sharp";
-import { join } from "path";
+import { join } from "node:path";
 
-const CHARS = "<>{}[]()#.,:;=+-*/\|&@!?%$\"'`~^_";
+const CHARS = "<>{}[]()#.,:;=+-*/|&@!?%$\"'`~^_";
 const WIDTH = 60;
 
 const src = join(process.cwd(), "public/images/portrait.jpg");
@@ -48,7 +47,7 @@ const colorData = JSON.stringify(colorRows);
         id="ascii-art"
         class="block"
         aria-label="ASCII portrait of Gabriel Raymondou"></canvas>
-      <script type="application/json" id="ascii-colors" set:html={colorData} />
+      <script is:inline type="application/json" id="ascii-colors" set:html={colorData} />
       <div class="flex gap-4 mt-2 hidden md:flex">
         <p class="font-mono text-[10px] text-white/20 tracking-widest">[ HOVER ]</p>
         <p class="font-mono text-[10px] text-white/20 tracking-widest">[ CLICK ]</p>
