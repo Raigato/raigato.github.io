@@ -1,44 +1,51 @@
 export interface Experience {
-  title: string;
-  company: string;
-  period: string;
-  description: string;
+  title: string
+  company: string
+  period: string
+  description: string
 }
 
 export const experiences: Experience[] = [
   {
-    title: "IP Support Consultant",
-    company: "Questel",
-    period: "2018 — 2019",
+    title: 'Marketing Software Engineer',
+    company: 'Swile',
+    period: 'Jan 2022 — Present',
     description:
-      "Provided technical and functional support for Questel's IP software suite. Advised clients on patent search, analytics, and portfolio management workflows.",
+      'Build durable and scalable acquisition systems leveraging marketing team efforts.',
   },
   {
-    title: "Co-Founder",
-    company: "Hero-Com",
-    period: "Sept 2019 — Dec 2019",
+    title: 'Co-Founder',
+    company: 'Synergia',
+    period: 'Oct 2024 — Jun 2025',
     description:
-      "Built and launched an e-commerce startup. Learned Facebook/Google Ads, conversion optimisation, and supply-chain logistics. Shut down after four months due to unsustainable burn rate.",
+      'Co-founded an AI automation agency based in Dubai. Built and delivered custom AI-based automation solutions for clients in sports, healthcare and high luxury services.',
   },
   {
-    title: "Co-Founder",
-    company: "HeroGrowth",
-    period: "2020 — 2021",
+    title: 'Freelance Web Developer',
+    company: 'Independent',
+    period: 'Jan 2020 — Present',
     description:
-      "Co-founded a social media management agency. Handled content strategy, paid social campaigns, and client reporting for SME clients across France.",
+      'Building websites, web applications, and custom growth tools for ambitious teams. Clients across France and internationally.',
   },
   {
-    title: "Founder",
-    company: "Fliitbot",
-    period: "2018",
+    title: 'Co-Founder',
+    company: 'Hero-Com',
+    period: 'Sept 2019 — Dec 2019',
     description:
-      "Designed and shipped a Facebook Messenger chatbot for booking flights and hotels end-to-end, integrating Kiwi.com and DialogFlow APIs.",
+      'E-commerce startup, team of 2. Learned Facebook/Google Ads, conversion optimisation, and supply-chain logistics. Shut down after four months due to an unsustainable burn rate.',
   },
   {
-    title: "Founder",
-    company: "Studiz App",
-    period: "2017 — 2018",
+    title: 'Co-Founder',
+    company: 'HeroGrowth',
+    period: 'Feb 2019 — Sept 2019',
     description:
-      "Built and published a gamified iOS quiz app for students. Users create and share quizzes. Integrated Firebase for real-time data and AWS for asset delivery.",
+      'Social media management agency focused on sports car and luxury brands. Managed sales, client relationships, and a team of 3 freelancers while building growth hacking tools for delivery.',
   },
-];
+  {
+    title: 'IP Support Consultant',
+    company: 'Questel',
+    period: 'Sept 2016 — Aug 2018',
+    description:
+      'Started in customer support, quickly evolved to user training and project management. Technical support for Orbit Intelligence, user training, and acting as interface between technical teams and sales reps.',
+  },
+]
