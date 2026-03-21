@@ -13,6 +13,33 @@ export interface Project {
 export const projects: Project[] = [
   {
     number: "01",
+    title: "Growth Engineering Platform",
+    description:
+      "Built from scratch at Swile: a global platform to modernize marketing operations and dramatically increase team velocity. Powers acquisition campaigns, landing pages, and growth experiments at scale.",
+    tags: ["Next.js", "Vercel", "AI Agents"],
+    thumbnail: "/images/projects/swile.jpg",
+    url: "https://swile.co",
+  },
+  {
+    number: "02",
+    title: "Casinoël by Swile",
+    description:
+      "A holiday-season interactive web experience for Swile: a roulette game where every player wins a gift. Implemented end-to-end from random generation logic to full animated frontend.",
+    tags: ["Next.js", "CSS Animations", "Express"],
+    thumbnail: "/images/projects/casinoel.jpg",
+    url: "https://www.behance.net/gallery/133286405/Casinoel-by-Swile",
+  },
+  {
+    number: "03",
+    title: "La Route des Golfs",
+    description:
+      "A marketplace to sell golf experiences across French destinations — built from scratch. Covers tee times, stays, and curated itineraries for golf tourism in France.",
+    tags: ["Next.js", "Laravel", "PostgreSQL"],
+    thumbnail: "/images/projects/laroutedesgolfs.jpg",
+    url: "https://www.explorenicecotedazur.com/blog-pro-actualite/nice-cote-dazur-sur-la-route-des-golfs/",
+  },
+  {
+    number: "04",
     title: "Studiz App",
     description:
       "A free iOS app to help students learn with a gamified approach. Create and share quizzes to learn faster and more efficiently.",
@@ -21,23 +48,5 @@ export const projects: Project[] = [
     url: "https://mystudiz.com/",
     github: "https://github.com/Raigato/myStudizApp",
   },
-  {
-    number: "02",
-    title: "Fliit Bot",
-    description:
-      "A chatbot for Facebook Messenger that lets you book your whole trip — flights to hotels — by finding the best available offers.",
-    tags: ["Chatfuel", "Kiwi API", "DialogFlow"],
-    thumbnail: "/images/projects/fliitbot.jpg",
-    url: "https://vimeo.com/312108400",
-  },
-  {
-    number: "03",
-    title: "HeroGrowth",
-    description:
-      "Website for a social media management agency. Achieved an 80+ mobile PageSpeed Insights score at launch.",
-    tags: ["Sass", "WordPress", "Bootstrap"],
-    thumbnail: "/images/projects/herogrowth.jpg",
-    url: "https://herogrowth.co/",
-    github: "https://github.com/Raigato/herogrowth.co",
-  },
+
 ];

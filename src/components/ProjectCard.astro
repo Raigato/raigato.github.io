@@ -9,9 +9,9 @@ const { project } = Astro.props;
 ---
 
 <article
-  class="card group border border-[#1e1e1e] mb-3 grid grid-cols-1 md:grid-cols-[1fr_280px] transition-colors duration-[250ms] hover:border-white/50"
+  class="card group border border-[#1e1e1e] mb-3 grid grid-cols-1 md:grid-cols-[1fr_280px] md:h-48 overflow-hidden transition-colors duration-[250ms] hover:border-white/50"
 >
-  <div class="p-4 flex flex-col justify-between">
+  <div class="p-4 flex flex-col justify-between overflow-hidden">
     <div>
       <p class="font-mono text-xs text-white/25 mb-1">{project.number} —</p>
       <h3 class="font-mono text-base font-bold text-white mb-2 tracking-tight">{project.title}</h3>
