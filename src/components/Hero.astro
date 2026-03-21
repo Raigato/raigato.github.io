@@ -48,11 +48,10 @@ const colorData = JSON.stringify(colorRows);
         class="block"
         aria-label="ASCII portrait of Gabriel Raymondou"></canvas>
       <script type="application/json" id="ascii-colors" set:html={colorData} />
-      <p
-        class="font-mono text-[10px] text-white/20 mt-2 tracking-widest hidden md:block"
-      >
-        [ HOVER ]
-      </p>
+      <div class="flex gap-4 mt-2 hidden md:flex">
+        <p class="font-mono text-[10px] text-white/20 tracking-widest">[ HOVER ]</p>
+        <p class="font-mono text-[10px] text-white/20 tracking-widest">[ CLICK ]</p>
+      </div>
     </div>
     <!-- Terminal Typewriter -->
     <div class="terminal font-mono order-1 md:order-2 min-h-[220px]">
@@ -166,7 +165,8 @@ const colorData = JSON.stringify(colorRows);
 
   runTypewriter();
 
-  // — ASCII canvas reveal + hover glitch (full-color) —
+
+  // — ASCII canvas reveal + spotlight (full-color on desktop, colored on mobile) —
   type Cell = [number, number, number, number]; // [r, g, b, charCode]
   const colorRows: Cell[][] = JSON.parse(
     document.getElementById("ascii-colors")!.textContent!,
@@ -177,7 +177,10 @@ const colorData = JSON.stringify(colorRows);
 
   const FONT_SIZE = 14;
   const FONT = `${FONT_SIZE}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-  const GLITCH_CHARS = "░▒▓█▄▀■□▪▫";
+  const GLITCH_CHARS = "<>{}[]()#.,:;=+-*/\\|&@!?%$\"'`~^_";
+  const SPOTLIGHT_RADIUS = 80; // CSS px
+
+  const isDesktop = window.matchMedia("(hover: hover)").matches;
 
   await document.fonts.ready;
   ctx.font = FONT;
@@ -192,7 +195,11 @@ const colorData = JSON.stringify(colorRows);
   canvas.style.height = `${colorRows.length * LINE_HEIGHT}px`;
   ctx.scale(dpr, dpr);
 
-  function drawFrame(revealRow: number) {
+  function lum(r: number, g: number, b: number) {
+    return Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+  }
+
+  function drawFrame(revealRow: number, glitchProb = 0.5) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = FONT;
 
@@ -202,8 +209,15 @@ const colorData = JSON.stringify(colorRows);
       const isFrontier = rowIdx === revealRow;
       let x = 0;
       for (const [r, g, b, charCode] of row) {
-        ctx.fillStyle = r + g + b < 20 ? "#0a0a0a" : `rgb(${r},${g},${b})`;
-        const isGlitch = isFrontier && Math.random() < 0.5;
+        if (r + g + b < 20) {
+          ctx.fillStyle = "#0a0a0a";
+        } else if (isDesktop) {
+          const l = lum(r, g, b);
+          ctx.fillStyle = `rgb(${l},${l},${l})`;
+        } else {
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+        }
+        const isGlitch = isFrontier && Math.random() < glitchProb;
         ctx.fillText(
           isGlitch
             ? GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
@@ -216,20 +230,104 @@ const colorData = JSON.stringify(colorRows);
     });
   }
 
+  function drawSpotlight(mouseX: number, mouseY: number) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT;
+
+    colorRows.forEach((row, rowIdx) => {
+      const y = rowIdx * LINE_HEIGHT + FONT_SIZE;
+      let x = 0;
+      for (const [r, g, b, charCode] of row) {
+        const dist = Math.hypot(x + charWidth / 2 - mouseX, y - mouseY);
+        const blend = r + g + b < 20 ? 0 : Math.max(0, 1 - dist / SPOTLIGHT_RADIUS);
+        if (blend === 0 && r + g + b < 20) {
+          ctx.fillStyle = "#0a0a0a";
+        } else {
+          const l = lum(r, g, b);
+          ctx.fillStyle = `rgb(${Math.round(l + (r - l) * blend)},${Math.round(l + (g - l) * blend)},${Math.round(l + (b - l) * blend)})`;
+        }
+        ctx.fillText(
+          blend > 0
+            ? GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+            : String.fromCharCode(charCode),
+          x,
+          y,
+        );
+        x += charWidth;
+      }
+    });
+  }
+
+  function drawFullColor() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT;
+    colorRows.forEach((row, rowIdx) => {
+      const y = rowIdx * LINE_HEIGHT + FONT_SIZE;
+      let x = 0;
+      for (const [r, g, b, charCode] of row) {
+        ctx.fillStyle = r + g + b < 20 ? "#0a0a0a" : `rgb(${r},${g},${b})`;
+        ctx.fillText(String.fromCharCode(charCode), x, y);
+        x += charWidth;
+      }
+    });
+  }
+
   const state = { row: 0 };
+  let tween: ReturnType<typeof gsap.to> | null = null;
+
   if (reducedMotion) {
     drawFrame(colorRows.length);
   } else {
-    gsap.to(state, {
+    tween = gsap.to(state, {
       row: colorRows.length - 1,
       duration: 3.5,
       ease: "power3.out",
       onUpdate() {
-        drawFrame(Math.floor(state.row));
+        const progress = state.row / (colorRows.length - 1);
+        drawFrame(Math.floor(state.row), 0.5 * (1 - progress));
       },
       onComplete() {
         drawFrame(colorRows.length);
       },
+    });
+  }
+
+  if (isDesktop) {
+    let mouse = { x: -9999, y: -9999 };
+    let rafId: number | null = null;
+    let locked = false;
+
+    canvas.addEventListener("click", () => {
+      tween?.kill();
+      tween = null;
+      locked = !locked;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      locked ? drawFullColor() : drawFrame(colorRows.length);
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (locked) return;
+      // First hover during animation: skip to end
+      if (tween?.isActive()) {
+        tween.kill();
+        tween = null;
+        drawFrame(colorRows.length);
+      }
+      mouse = { x: e.offsetX, y: e.offsetY };
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          drawSpotlight(mouse.x, mouse.y);
+          rafId = null;
+        });
+      }
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+      if (locked) return;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      drawFrame(colorRows.length);
     });
   }
 </script>
