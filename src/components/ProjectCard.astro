@@ -17,7 +17,7 @@ const { project } = Astro.props;
       <h3 class="font-mono text-base font-bold text-white mb-2 tracking-tight">{project.title}</h3>
       <p class="text-sm text-white/50 leading-relaxed">{project.description}</p>
     </div>
-    <div class="mt-4 flex justify-between items-end">
+    <div class="mt-4 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
       <div class="flex gap-1.5 flex-wrap">
         {project.tags.map((tag) => (
           <span class="font-mono text-xs border border-[#242424] text-white/30 px-2 py-0.5 tracking-wide">{tag}</span>
@@ -33,13 +33,13 @@ const { project } = Astro.props;
       </div>
     </div>
   </div>
-  <div class="border-l border-[#1e1e1e] overflow-hidden transition-colors duration-[250ms] group-hover:border-white/50 hidden md:block">
+  <div class="border-b md:border-b-0 md:border-l border-[#1e1e1e] overflow-hidden transition-colors duration-[250ms] group-hover:border-white/50 order-first md:order-last h-48 md:h-full">
     <img
       src={project.thumbnail}
       alt={project.alt}
       width="280"
       height="180"
-      class="w-full h-full object-cover block grayscale brightness-[0.7] transition-[filter] duration-[350ms] ease-in-out group-hover:grayscale-0 group-hover:brightness-100"
+      class="w-full h-full object-cover block md:grayscale md:brightness-[0.7] transition-[filter] duration-[350ms] ease-in-out group-hover:grayscale-0 group-hover:brightness-100"
       loading="lazy"
     />
   </div>
