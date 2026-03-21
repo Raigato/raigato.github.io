@@ -3,8 +3,9 @@ import { projects } from "../data/projects";
 import ProjectCard from "./ProjectCard.astro";
 ---
 
-<section id="projects" class="py-24 px-6 border-t border-[#1e1e1e]">
+<section id="projects" aria-label="Selected Work" class="py-24 px-6 border-t border-[#1e1e1e]">
   <div class="max-w-6xl mx-auto">
+    <h2 class="sr-only">Selected Work</h2>
     <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
       <span>// SELECTED WORK</span><span>03 / 05</span>
     </div>

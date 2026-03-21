@@ -36,7 +36,7 @@ const { project } = Astro.props;
   <div class="border-l border-[#1e1e1e] overflow-hidden transition-colors duration-[250ms] group-hover:border-white/50 hidden md:block">
     <img
       src={project.thumbnail}
-      alt=""
+      alt={project.alt}
       width="280"
       height="180"
       class="w-full h-full object-cover block grayscale brightness-[0.7] transition-[filter] duration-[350ms] ease-in-out group-hover:grayscale-0 group-hover:brightness-100"

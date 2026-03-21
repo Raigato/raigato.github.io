@@ -7,6 +7,7 @@ import Experience from "../components/Experience.astro";
 import Projects from "../components/Projects.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
+import Cursor from "../components/Cursor.astro";
 ---
 
 <html lang="en">
@@ -17,13 +18,17 @@ import Footer from "../components/Footer.astro";
     <meta name="author" content="Gabriel Raymondou" />
     <meta name="theme-color" content="#0a0a0a" />
 
-    <title>Gabriel Raymondou — Fullstack Developer</title>
+    <title>Freelance Fullstack Developer — Gabriel Raymondou</title>
     <meta name="description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://raigato.github.io/" />
-    <meta property="og:title" content="Gabriel Raymondou — Freelance Web & AI Developer" />
+    <meta property="og:title" content="Freelance Fullstack Developer — Gabriel Raymondou" />
     <meta property="og:description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
     <meta property="og:image" content="https://raigato.github.io/images/og-image.jpg" />
 
@@ -31,11 +36,13 @@ import Footer from "../components/Footer.astro";
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@raigatodev" />
     <meta name="twitter:creator" content="@raigatodev" />
-    <meta name="twitter:title" content="Gabriel Raymondou — Freelance Web & AI Developer" />
+    <meta name="twitter:title" content="Freelance Fullstack Developer — Gabriel Raymondou" />
     <meta name="twitter:description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
     <meta name="twitter:image" content="https://raigato.github.io/images/og-image.jpg" />
 
     <link rel="canonical" href="https://raigato.github.io/" />
+    <link rel="alternate" hreflang="x-default" href="https://raigato.github.io/" />
+    <link rel="alternate" hreflang="en" href="https://raigato.github.io/" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -60,8 +67,17 @@ import Footer from "../components/Footer.astro";
         "knowsAbout": ["TypeScript", "React", "Next.js", "AWS", "AI integration", "web application development", "growth engineering"]
       }
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Gabriel Raymondou",
+        "url": "https://raigato.github.io"
+      }
+    </script>
   </head>
   <body>
+    <Cursor />
     <Navbar />
     <main>
       <Hero />
