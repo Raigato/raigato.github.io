@@ -1,1 +1,127 @@
-<section id="hero"></section>
+---
+import { config } from '../data/config'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+const ascii = readFileSync(resolve('src/data/ascii.txt'), 'utf-8')
+---
+
+<section
+  id="hero"
+  class="min-h-screen flex items-center px-6 pt-20 pb-12"
+>
+  <div class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+    <!-- ASCII Portrait -->
+    <div class="ascii-wrap group cursor-default select-none">
+      <pre
+        id="ascii-art"
+        class="font-mono text-[5px] leading-tight text-white/70 whitespace-pre overflow-hidden"
+        aria-label="ASCII portrait of Gabriel Raymondou"
+      >{ascii}</pre>
+      <p class="font-mono text-[10px] text-white/20 mt-2 tracking-widest">[ HOVER ]</p>
+    </div>
+
+    <!-- Terminal Typewriter -->
+    <div class="terminal font-mono">
+      <p class="text-white/30 text-sm mb-4">~/gabriel $</p>
+      <div id="terminal-lines" class="space-y-1 text-sm">
+        <!-- Lines injected by GSAP -->
+      </div>
+      <div id="terminal-ctas" class="mt-8 flex gap-3 opacity-0">
+        <a
+          href="#contact"
+          class="font-mono text-xs bg-white text-black px-4 py-2 font-bold tracking-widest hover:bg-white/90 transition-colors"
+        >
+          GET IN TOUCH
+        </a>
+        <a
+          href="#work"
+          class="font-mono text-xs border border-white/30 text-white/70 px-4 py-2 tracking-widest hover:border-white hover:text-white transition-all"
+        >
+          VIEW WORK ↓
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap'
+
+  // — Terminal typewriter —
+  const terminalLines = document.getElementById('terminal-lines')!
+  const terminalCtas = document.getElementById('terminal-ctas')!
+
+  const lines = [
+    { key: 'name',     val: 'Gabriel Raymondou',  color: '' },
+    { key: 'role',     val: 'Fullstack Dev',       color: '' },
+    { key: 'location', val: 'Cannes, France',      color: '' },
+    { key: 'status',   val: 'Available ●',         color: 'var(--accent-green)' },
+  ]
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  const tl = gsap.timeline({ delay: reducedMotion ? 0 : 0.4 })
+
+  for (const line of lines) {
+    const el = document.createElement('div')
+    el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || 'inherit'}">${line.val}</span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`
+    terminalLines.appendChild(el)
+
+    const valSpan = el.querySelectorAll('span')[1] as HTMLElement
+    const cursor = el.querySelector('.cursor') as HTMLElement
+    const fullText = line.val
+
+    if (reducedMotion) {
+      // Show all text instantly — no typewriter
+      valSpan.textContent = fullText
+      cursor.style.display = 'none'
+    } else {
+      valSpan.textContent = ''
+      tl.add(() => {
+        let i = 0
+        const interval = setInterval(() => {
+          valSpan.textContent = fullText.slice(0, ++i)
+          if (i >= fullText.length) {
+            clearInterval(interval)
+            cursor.style.display = 'none'
+          }
+        }, 60)
+      }).addPause(`+=${fullText.length * 0.06 + 0.2}`)
+    }
+  }
+
+  tl.to(terminalCtas, { opacity: 1, y: 0, duration: reducedMotion ? 0 : 0.4, ease: 'power2.out' })
+
+  // — ASCII glitch on hover —
+  const asciiEl = document.getElementById('ascii-art')!
+  const originalAscii = asciiEl.textContent ?? ''
+  const glitchChars = '░▒▓█▄▀■□▪▫'
+  let glitchInterval: ReturnType<typeof setInterval> | null = null
+
+  asciiEl.addEventListener('mouseenter', () => {
+    let ticks = 0
+    glitchInterval = setInterval(() => {
+      if (ticks++ > 5) {
+        clearInterval(glitchInterval!)
+        asciiEl.textContent = originalAscii
+        return
+      }
+      asciiEl.textContent = originalAscii
+        .split('')
+        .map((ch) =>
+          ch !== '\n' && Math.random() < 0.04
+            ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+            : ch,
+        )
+        .join('')
+    }, 50)
+  })
+
+  asciiEl.addEventListener('mouseleave', () => {
+    if (glitchInterval) clearInterval(glitchInterval)
+    asciiEl.textContent = originalAscii
+  })
+</script>
