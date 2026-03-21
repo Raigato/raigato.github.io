@@ -1,0 +1,42 @@
+---
+---
+
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300"
+  style="background: transparent;"
+>
+  <span class="font-mono text-sm tracking-widest text-white/60">G.R —</span>
+  <a
+    href="#contact"
+    class="font-mono text-xs tracking-widest border border-white/20 px-3 py-1.5 text-white/80 hover:border-white hover:text-white transition-all duration-200"
+  >
+    CONTACT ↓
+  </a>
+</nav>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+  gsap.registerPlugin(ScrollTrigger)
+
+  const navbar = document.getElementById('navbar')
+
+  ScrollTrigger.create({
+    start: 'top -80px',
+    onEnter: () => {
+      gsap.to(navbar, {
+        backgroundColor: 'rgba(10, 10, 10, 0.95)',
+        borderBottom: '1px solid #1e1e1e',
+        duration: 0.3,
+      })
+    },
+    onLeaveBack: () => {
+      gsap.to(navbar, {
+        backgroundColor: 'transparent',
+        borderBottom: 'none',
+        duration: 0.3,
+      })
+    },
+  })
+</script>
