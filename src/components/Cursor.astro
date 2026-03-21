@@ -1,0 +1,71 @@
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<style>
+  #cursor-dot {
+    position: fixed;
+    width: 12px;
+    height: 2px;
+    background: #00ffee;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+
+  #cursor-ring {
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
+    opacity: 0;
+    transition: width 0.15s ease, height 0.15s ease, opacity 0.12s ease;
+    border: 2px solid #00ffee;
+    filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000);
+  }
+
+  #cursor-dot.is-hovering {
+    opacity: 1;
+    filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000);
+  }
+
+  #cursor-ring.is-hovering {
+    width: 42px;
+    height: 42px;
+    opacity: 1;
+  }
+</style>
+
+<script>
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const dot = document.getElementById("cursor-dot") as HTMLElement;
+    const ring = document.getElementById("cursor-ring") as HTMLElement;
+
+    let mx = 0, my = 0;
+    document.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.left = mx + "px";
+      dot.style.top = my + "px";
+      ring.style.left = mx + "px";
+      ring.style.top = my + "px";
+    });
+
+    document.querySelectorAll("a:not([rel~='me']), button").forEach((el) => {
+      (el as HTMLElement).style.cursor = "none";
+      el.addEventListener("mouseenter", () => {
+        dot.classList.add("is-hovering");
+        ring.classList.add("is-hovering");
+      });
+      el.addEventListener("mouseleave", () => {
+        dot.classList.remove("is-hovering");
+        ring.classList.remove("is-hovering");
+      });
+    });
+  }
+</script>
