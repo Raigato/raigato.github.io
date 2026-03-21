@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: #0a0a0a;
+  --color-fg: #ffffff;
+  --color-fg-muted: rgba(255, 255, 255, 0.4);
+  --color-border: #1e1e1e;
+  --color-accent-red: #ff0044;
+  --color-accent-cyan: #00ffee;
+  --color-accent-green: #4fffb0;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
 :root {
   --bg: #0a0a0a;
   --fg: #ffffff;
