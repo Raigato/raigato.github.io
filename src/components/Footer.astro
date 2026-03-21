@@ -1,1 +1,16 @@
-<footer></footer>
+---
+import { config } from "../data/config";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="py-8 px-6 border-t border-[#1e1e1e]">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <span class="font-mono text-[0.55rem] text-white/20 tracking-widest uppercase">
+      © {year} {config.name.toUpperCase()}
+    </span>
+    <span class="font-mono text-[0.55rem] text-white/20 tracking-widest uppercase">
+      DESIGNED &amp; BUILT BY GR
+    </span>
+  </div>
+</footer>

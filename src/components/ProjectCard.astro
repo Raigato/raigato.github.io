@@ -1,0 +1,46 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article
+  class="card group border border-[#1e1e1e] mb-3 grid grid-cols-1 md:grid-cols-[1fr_280px] transition-colors duration-[250ms] hover:border-white/50"
+>
+  <div class="p-4 flex flex-col justify-between">
+    <div>
+      <p class="font-mono text-xs text-white/25 mb-1">{project.number} —</p>
+      <h3 class="font-mono text-base font-bold text-white mb-2 tracking-tight">{project.title}</h3>
+      <p class="text-sm text-white/50 leading-relaxed">{project.description}</p>
+    </div>
+    <div class="mt-4 flex justify-between items-end">
+      <div class="flex gap-1.5 flex-wrap">
+        {project.tags.map((tag) => (
+          <span class="font-mono text-xs border border-[#242424] text-white/30 px-2 py-0.5 tracking-wide">{tag}</span>
+        ))}
+      </div>
+      <div class="flex gap-3 items-center">
+        {project.github && (
+          <a href={project.github} class="font-mono text-xs text-white/30 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer">GH ↗</a>
+        )}
+        {project.url && (
+          <a href={project.url} class="font-mono text-xs text-white/30 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer">LIVE ↗</a>
+        )}
+      </div>
+    </div>
+  </div>
+  <div class="border-l border-[#1e1e1e] overflow-hidden transition-colors duration-[250ms] group-hover:border-white/50 hidden md:block">
+    <img
+      src={project.thumbnail}
+      alt=""
+      width="280"
+      height="180"
+      class="w-full h-full object-cover block grayscale brightness-[0.7] transition-[filter] duration-[350ms] ease-in-out group-hover:grayscale-0 group-hover:brightness-100"
+      loading="lazy"
+    />
+  </div>
+</article>

@@ -1,1 +1,38 @@
-<section id="work"></section>
+---
+import { projects } from "../data/projects";
+import ProjectCard from "./ProjectCard.astro";
+---
+
+<section id="projects" class="py-24 px-6 border-t border-[#1e1e1e]">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
+      <span>// SELECTED WORK</span><span>03 / 04</span>
+    </div>
+    <div id="projects-list">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+  gsap.registerPlugin(ScrollTrigger)
+
+  const cards = document.querySelectorAll('#projects-list .card')
+  if (cards.length > 0) {
+    gsap.from(cards, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: '#projects-list',
+        start: 'top 85%',
+      },
+    })
+  }
+</script>

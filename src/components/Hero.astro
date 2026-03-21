@@ -1,9 +1,9 @@
 ---
-import { config } from '../data/config'
-import { readFileSync } from 'fs'
-import { resolve } from 'path'
+import { config } from "../data/config";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
-const ascii = readFileSync(resolve('src/data/ascii.txt'), 'utf-8')
+const ascii = readFileSync(resolve("src/data/ascii.txt"), "utf-8");
 ---
 
 <section
@@ -16,10 +16,10 @@ const ascii = readFileSync(resolve('src/data/ascii.txt'), 'utf-8')
     <div class="ascii-wrap group cursor-default select-none">
       <pre
         id="ascii-art"
-        class="font-mono text-[5px] leading-tight text-white/70 whitespace-pre overflow-hidden"
+        class="font-mono text-[5px] leading-tight text-white/70 whitespace-pre overflow-hidden hidden md:block"
         aria-label="ASCII portrait of Gabriel Raymondou"
       >{ascii}</pre>
-      <p class="font-mono text-[10px] text-white/20 mt-2 tracking-widest">[ HOVER ]</p>
+      <p class="font-mono text-[10px] text-white/20 mt-2 tracking-widest hidden md:block">[ HOVER ]</p>
     </div>
 
     <!-- Terminal Typewriter -->
@@ -36,7 +36,7 @@ const ascii = readFileSync(resolve('src/data/ascii.txt'), 'utf-8')
           GET IN TOUCH
         </a>
         <a
-          href="#work"
+          href="#projects"
           class="font-mono text-xs border border-white/30 text-white/70 px-4 py-2 tracking-widest hover:border-white hover:text-white transition-all"
         >
           VIEW WORK ↓
@@ -55,45 +55,61 @@ const ascii = readFileSync(resolve('src/data/ascii.txt'), 'utf-8')
   const terminalCtas = document.getElementById('terminal-ctas')!
 
   const lines = [
-    { key: 'name',     val: 'Gabriel Raymondou',  color: '' },
-    { key: 'role',     val: 'Fullstack Dev',       color: '' },
-    { key: 'location', val: 'Cannes, France',      color: '' },
-    { key: 'status',   val: 'Available ●',         color: 'var(--accent-green)' },
+    { key: 'name',     val: 'Gabriel Raymondou',  color: '',                      blink: false },
+    { key: 'role',     val: 'Fullstack Dev',       color: '',                      blink: false },
+    { key: 'location', val: 'Cannes, France',      color: '',                      blink: false },
+    { key: 'status',   val: 'Available ●',         color: 'var(--accent-green)',   blink: true  },
   ]
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  const tl = gsap.timeline({ delay: reducedMotion ? 0 : 0.4 })
+  function typeLine(line: { key: string; val: string; color: string; blink: boolean }): Promise<void> {
+    return new Promise((resolve) => {
+      const el = document.createElement('div')
+      el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || 'inherit'}"></span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`
+      terminalLines.appendChild(el)
 
-  for (const line of lines) {
-    const el = document.createElement('div')
-    el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || 'inherit'}">${line.val}</span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`
-    terminalLines.appendChild(el)
+      const valSpan = el.querySelectorAll('span')[1] as HTMLElement
+      const cursor = el.querySelector('.cursor') as HTMLElement
 
-    const valSpan = el.querySelectorAll('span')[1] as HTMLElement
-    const cursor = el.querySelector('.cursor') as HTMLElement
-    const fullText = line.val
+      function finalize() {
+        if (line.blink) {
+          const text = line.val.slice(0, -1)
+          const dot = line.val.slice(-1)
+          valSpan.innerHTML = `${text}<span style="animation: blink 1.5s ease-in-out infinite">${dot}</span>`
+        }
+      }
 
-    if (reducedMotion) {
-      // Show all text instantly — no typewriter
-      valSpan.textContent = fullText
-      cursor.style.display = 'none'
-    } else {
-      valSpan.textContent = ''
-      tl.add(() => {
-        let i = 0
-        const interval = setInterval(() => {
-          valSpan.textContent = fullText.slice(0, ++i)
-          if (i >= fullText.length) {
-            clearInterval(interval)
-            cursor.style.display = 'none'
-          }
-        }, 60)
-      }).addPause(`+=${fullText.length * 0.06 + 0.2}`)
-    }
+      if (reducedMotion) {
+        valSpan.textContent = line.val
+        finalize()
+        cursor.style.display = 'none'
+        resolve()
+        return
+      }
+
+      let i = 0
+      const interval = setInterval(() => {
+        valSpan.textContent = line.val.slice(0, ++i)
+        if (i >= line.val.length) {
+          clearInterval(interval)
+          finalize()
+          cursor.style.display = 'none'
+          setTimeout(resolve, 200)
+        }
+      }, 60)
+    })
   }
 
-  tl.to(terminalCtas, { opacity: 1, y: 0, duration: reducedMotion ? 0 : 0.4, ease: 'power2.out' })
+  async function runTypewriter() {
+    if (!reducedMotion) await new Promise((r) => setTimeout(r, 400))
+    for (const line of lines) {
+      await typeLine(line)
+    }
+    gsap.to(terminalCtas, { opacity: 1, duration: reducedMotion ? 0 : 0.4, ease: 'power2.out' })
+  }
+
+  runTypewriter()
 
   // — ASCII glitch on hover —
   const asciiEl = document.getElementById('ascii-art')!

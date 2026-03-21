@@ -1,1 +1,30 @@
-<section id="about"></section>
+---
+import { config } from "../data/config";
+---
+<section id="about" aria-label="About" class="py-24 px-6 border-t border-[#1e1e1e]">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
+      <span>// ABOUT</span><span>02 / 04</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <h3 class="font-mono text-xs text-white/35 tracking-[3px] uppercase mb-4">Bio</h3>
+        <p class="text-white/70 leading-relaxed text-sm">{config.bio}</p>
+      </div>
+      <div>
+        <h3 class="font-mono text-xs text-white/35 tracking-[3px] uppercase mb-4">Stack</h3>
+        <div class="grid grid-cols-2 gap-2">
+          {config.stack.map((item) => (
+            <span class="font-mono text-xs border border-[#242424] text-white/50 px-3 py-1.5 tracking-wider">{item}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+  gsap.registerPlugin(ScrollTrigger)
+  gsap.from('#about', { opacity: 0, y: 30, duration: 0.7, ease: 'power2.out', scrollTrigger: { trigger: '#about', start: 'top 85%' } })
+</script>

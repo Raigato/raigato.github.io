@@ -3,7 +3,10 @@
   "files": {
     "includes": ["src/**", "scripts/**", "*.ts", "*.json", "!biome.json"]
   },
-  "assist": { "enabled": true, "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "enabled": true,
+    "actions": { "source": { "organizeImports": "on" } }
+  },
   "linter": {
     "enabled": true,
     "rules": {
