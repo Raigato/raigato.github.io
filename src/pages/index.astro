@@ -36,6 +36,30 @@ import Footer from "../components/Footer.astro";
     <meta name="twitter:image" content="https://raigato.github.io/images/og-image.jpg" />
 
     <link rel="canonical" href="https://raigato.github.io/" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gabriel Raymondou",
+        "url": "https://raigato.github.io",
+        "email": "gabriel.raymondou@gmail.com",
+        "jobTitle": "Freelance Fullstack Developer",
+        "description": "Freelance fullstack developer specializing in web apps, AI integrations, and growth automation. Based in Cannes, France.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cannes",
+          "addressCountry": "FR"
+        },
+        "sameAs": [
+          "https://github.com/raigato",
+          "https://linkedin.com/in/gabriel-raymondou",
+          "https://x.com/raigatodev"
+        ],
+        "knowsAbout": ["TypeScript", "React", "Next.js", "AWS", "AI integration", "web application development", "growth engineering"]
+      }
+    </script>
   </head>
   <body>
     <Navbar />

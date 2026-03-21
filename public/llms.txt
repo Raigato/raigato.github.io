@@ -1,0 +1,38 @@
+# Gabriel Raymondou
+
+> Freelance fullstack developer specializing in web apps, AI integrations, and growth automation. Based in Cannes, France. Available for hire.
+
+## About
+
+Gabriel Raymondou is a fullstack developer and Marketing Software Engineer with experience building scalable acquisition systems, web applications, and custom AI-powered tools. He has co-founded two startups, led technical delivery at an AI automation agency, and works with clients across France and internationally.
+
+## Services
+
+- Web application development (React, Next.js, TypeScript)
+- AI integration and automation (LLM APIs, custom pipelines)
+- Growth engineering and acquisition systems
+- Freelance consulting and project delivery
+
+## Stack
+
+TypeScript, React, Next.js, AWS, Vercel, Generative AI, Claude, HubSpot
+
+## Experience
+
+- **Marketing Software Engineer** — Swile (Jan 2022 – Present): Scalable acquisition systems for a leading French fintech.
+- **Co-Founder** — Synergia (Oct 2024 – Jun 2025): AI automation agency based in Dubai. Custom AI solutions for sports, healthcare, and luxury.
+- **Freelance Web Developer** — Independent (Jan 2020 – Present): Web apps and growth tools for clients across France and internationally.
+
+## Selected Projects
+
+- **Studiz App**: Gamified quiz app for students (Swift, Firebase, AWS). Live at mystudiz.com.
+- **Fliit Bot**: Facebook Messenger chatbot for booking flights and hotels (Chatfuel, Kiwi API, DialogFlow).
+- **HeroGrowth**: Social media agency website with 80+ PageSpeed score (Sass, WordPress, Bootstrap).
+
+## Contact
+
+- Email: gabriel.raymondou@gmail.com
+- GitHub: https://github.com/raigato
+- LinkedIn: https://linkedin.com/in/gabriel-raymondou
+- X: https://x.com/raigatodev
+- Website: https://raigato.github.io
