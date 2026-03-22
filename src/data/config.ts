@@ -4,7 +4,7 @@ export const config = {
   name: "Gabriel Raymondou",
   role: "Fullstack Developer",
   location: "Cannes, France",
-  bio: "Marketing Software Engineer at Swile & freelance developer based in Cannes. I build scalable acquisition systems, web apps, and custom growth tools — leveraging AI and automation to drive measurable results for ambitious teams.",
+  bio: "Marketing Software Engineer at Swile & freelance developer. I build scalable acquisition systems, web apps, and custom growth tools — leveraging AI and automation to drive measurable results for ambitious teams.",
   email: "gabriel.raymondou@gmail.com",
   available: true,
   stack: [
