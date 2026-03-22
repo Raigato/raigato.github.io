@@ -21,6 +21,7 @@
     })
 
     const originals = targets.map((el) => el.textContent ?? '')
+    const originalHTMLs = targets.map((el) => el.innerHTML)
     let frame = 0
     const totalFrames = 20
     let callbackCalled = false
@@ -56,7 +57,7 @@
       if (frame >= totalFrames) {
         clearInterval(interval)
         targets.forEach((el, i) => {
-          el.textContent = originals[i]
+          el.innerHTML = originalHTMLs[i]
         })
         window.dispatchEvent(new CustomEvent('theme-transition-complete'))
       }
