@@ -27,6 +27,9 @@ pnpm-debug.log*
 playwright-report/
 test-results/
 
+# worktrees
+.worktrees/
+
 # project-local tool dirs
 .obsidian/
 .vscode/

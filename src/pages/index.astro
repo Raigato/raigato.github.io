@@ -10,12 +10,19 @@ import Hero from "../components/Hero.astro";
 import Navbar from "../components/Navbar.astro";
 import Projects from "../components/Projects.astro";
 import PostHog from "../components/posthog.astro";
+import ThemeTransition from "../components/ThemeTransition.astro";
 ---
 
 <html lang="en">
   <head>
     <PostHog />
     <meta charset="utf-8" />
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="google-site-verification" content="hSsAKq4y67A8Oiq6icLQ0ww4fV8MmW93lqWbwbEVv4w" />
     <meta name="robots" content="index, follow" />
@@ -162,5 +169,6 @@ import PostHog from "../components/posthog.astro";
       <Contact />
     </main>
     <Footer />
+    <ThemeTransition />
   </body>
 </html>

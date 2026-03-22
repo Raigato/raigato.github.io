@@ -1,0 +1,66 @@
+<script>
+  const ASCII = '!@#$%^&*()[]{}|<>/\\;:░▒▓█▄▀■□▪▫0123456789ABCDEFabcdef'
+
+  declare global {
+    interface Window {
+      triggerThemeTransition: (callback: () => void) => void
+    }
+  }
+
+  window.triggerThemeTransition = function (callback: () => void) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      callback()
+      window.dispatchEvent(new CustomEvent('theme-transition-complete'))
+      return
+    }
+
+    const selectors = 'h1, h2, h3, h4, nav a, button, .font-mono'
+    const targets = [...document.querySelectorAll<HTMLElement>(selectors)].filter((el) => {
+      const text = el.textContent?.trim() ?? ''
+      return text.length > 0 && text.length <= 60 && !el.querySelector(selectors)
+    })
+
+    const originals = targets.map((el) => el.textContent ?? '')
+    const originalHTMLs = targets.map((el) => el.innerHTML)
+    let frame = 0
+    const totalFrames = 20
+    let callbackCalled = false
+
+    const interval = setInterval(() => {
+      frame++
+      const progress = frame / totalFrames
+
+      targets.forEach((el, i) => {
+        const orig = originals[i]
+        const resolveThreshold = totalFrames * 0.7
+        const scrambled = orig
+          .split('')
+          .map((ch, ci) => {
+            if (ch === ' ' || ch === '\n') return ch
+            // Resolve characters from the start once past 70% progress
+            if (
+              frame > resolveThreshold &&
+              ci < Math.floor(((progress - 0.7) / 0.3) * orig.length)
+            )
+              return ch
+            return ASCII[Math.floor(Math.random() * ASCII.length)]
+          })
+          .join('')
+        el.textContent = scrambled
+      })
+
+      if (frame === Math.floor(totalFrames * 0.5) && !callbackCalled) {
+        callbackCalled = true
+        callback()
+      }
+
+      if (frame >= totalFrames) {
+        clearInterval(interval)
+        targets.forEach((el, i) => {
+          el.innerHTML = originalHTMLs[i]
+        })
+        window.dispatchEvent(new CustomEvent('theme-transition-complete'))
+      }
+    }, 30)
+  }
+</script>
