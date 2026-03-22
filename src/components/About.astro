@@ -13,11 +13,11 @@ import { config } from "../data/config";
       </div>
       <div>
         <h3 class="font-mono text-xs text-white/35 tracking-[3px] uppercase mb-4">Stack</h3>
-        <div class="grid grid-cols-2 gap-2">
+        <ul class="grid grid-cols-2 gap-2 list-none p-0 m-0">
           {config.stack.map((item) => (
-            <span class="font-mono text-xs border border-[#242424] text-white/50 px-3 py-1.5 tracking-wider">{item}</span>
+            <li class="font-mono text-xs border border-[#242424] text-white/50 px-3 py-1.5 tracking-wider">{item}</li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   </div>

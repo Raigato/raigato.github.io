@@ -7,17 +7,19 @@ import { experiences } from "../data/experiences";
     <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
       <h2 class="font-mono text-xs text-white/25 tracking-widest">// EXPERIENCE</h2><span>04 / 06</span>
     </div>
-    <div id="experience-list" class="flex flex-col divide-y divide-[#1e1e1e]">
+    <ol id="experience-list" class="list-none p-0 m-0 flex flex-col divide-y divide-[#1e1e1e]">
       {experiences.map((exp) => (
-        <article class="experience-item py-8">
-          <h3 class="font-mono text-sm font-bold text-white mb-1 tracking-tight">{exp.title}</h3>
-          <p class="font-mono text-xs text-white/25 tracking-widest uppercase mb-3">
-            {exp.company} · {exp.period}
-          </p>
-          <p class="text-sm text-white/50 leading-relaxed">{exp.description}</p>
-        </article>
+        <li class="list-none">
+          <article class="experience-item py-8">
+            <h3 class="font-mono text-sm font-bold text-white mb-1 tracking-tight">{exp.title}</h3>
+            <p class="font-mono text-xs text-white/25 tracking-widest uppercase mb-3">
+              {exp.company} · {exp.period}
+            </p>
+            <p class="text-sm text-white/50 leading-relaxed">{exp.description}</p>
+          </article>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
 
