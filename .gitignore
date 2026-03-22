@@ -27,4 +27,6 @@ pnpm-debug.log*
 .obsidian/
 .vscode/
 .superpowers/
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
