@@ -14,13 +14,15 @@
       return
     }
 
+    const savedScrollY = window.scrollY
+
     const selectors = 'h1, h2, h3, h4, nav a, button, .font-mono'
     const targets = [...document.querySelectorAll<HTMLElement>(selectors)].filter((el) => {
-      const text = el.textContent?.trim() ?? ''
+      const text = el.innerText?.trim() ?? ''
       return text.length > 0 && text.length <= 60 && !el.querySelector(selectors)
     })
 
-    const originals = targets.map((el) => el.textContent ?? '')
+    const originals = targets.map((el) => el.innerText ?? '')
     const originalHTMLs = targets.map((el) => el.innerHTML)
     let frame = 0
     const totalFrames = 20
@@ -59,6 +61,7 @@
         targets.forEach((el, i) => {
           el.innerHTML = originalHTMLs[i]
         })
+        window.scrollTo({ top: savedScrollY, behavior: 'instant' })
         window.dispatchEvent(new CustomEvent('theme-transition-complete'))
       }
     }, 30)
