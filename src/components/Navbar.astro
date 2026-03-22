@@ -12,8 +12,8 @@
     <button
       id="theme-toggle"
       aria-label="Toggle theme"
-      class="font-mono text-xs tracking-widest border px-2 py-1 transition-colors duration-200"
-      style="border-color: var(--accent-cyan); color: var(--accent-cyan);"
+      class="font-mono text-xs tracking-widest px-2 py-1 transition-colors duration-200"
+      style="color: var(--fg);"
     >
       [dark_mode]
     </button>
@@ -47,17 +47,23 @@
   })
 
   toggle?.addEventListener('click', () => {
+    window.addEventListener('theme-transition-complete', () => {
+      if (toggle) {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light'
+        toggle.textContent = isLight ? '[light_mode]' : '[dark_mode]'
+      }
+    }, { once: true })
+
     ;(window as Window & { triggerThemeTransition: (cb: () => void) => void }).triggerThemeTransition(() => {
       const isLight = document.documentElement.getAttribute('data-theme') === 'light'
       if (isLight) {
         document.documentElement.removeAttribute('data-theme')
         localStorage.setItem('theme', 'dark')
-        if (toggle) toggle.textContent = '[dark_mode]'
       } else {
         document.documentElement.setAttribute('data-theme', 'light')
         localStorage.setItem('theme', 'light')
-        if (toggle) toggle.textContent = '[light_mode]'
       }
+      window.dispatchEvent(new CustomEvent('theme-changed'))
     })
   })
 

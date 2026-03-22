@@ -46,6 +46,7 @@ const colorData = JSON.stringify(colorRows);
       <canvas
         id="ascii-art"
         class="block"
+        style="background: #0a0a0a; border-radius: 8px;"
         aria-label="ASCII portrait of Gabriel Raymondou"></canvas>
       <script is:inline type="application/json" id="ascii-colors" set:html={colorData} />
       <div class="flex gap-4 mt-2 hidden md:flex" aria-hidden="true">
@@ -206,7 +207,7 @@ const colorData = JSON.stringify(colorRows);
   }
 
   function getBgColor() {
-    return getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0a0a0a';
+    return '#0a0a0a';
   }
 
   function drawFrame(revealRow: number, glitchProb = 0.5) {
@@ -302,10 +303,11 @@ const colorData = JSON.stringify(colorRows);
     });
   }
 
+  let locked = false;
+
   if (isDesktop) {
     let mouse = { x: -9999, y: -9999 };
     let rafId: number | null = null;
-    let locked = false;
 
     canvas.addEventListener("click", () => {
       tween?.kill();
@@ -340,4 +342,13 @@ const colorData = JSON.stringify(colorRows);
       drawFrame(colorRows.length);
     });
   }
+
+  window.addEventListener('theme-changed', () => {
+    if (tween?.isActive()) return;
+    if (locked) {
+      drawFullColor();
+    } else {
+      drawFrame(colorRows.length);
+    }
+  });
 </script>

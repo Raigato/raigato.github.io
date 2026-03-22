@@ -10,6 +10,7 @@
   window.triggerThemeTransition = function (callback: () => void) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       callback()
+      window.dispatchEvent(new CustomEvent('theme-transition-complete'))
       return
     }
 
@@ -57,6 +58,7 @@
         targets.forEach((el, i) => {
           el.textContent = originals[i]
         })
+        window.dispatchEvent(new CustomEvent('theme-transition-complete'))
       }
     }, 30)
   }
