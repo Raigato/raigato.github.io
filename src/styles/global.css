@@ -47,6 +47,63 @@ body {
   }
 }
 
+[data-theme="light"] {
+  --bg: #f8f8f8;
+  --fg: #111111;
+  --fg-muted: rgba(0, 0, 0, 0.45);
+  --border: #e0e0e0;
+  --accent-red: #cc0033;
+  --accent-cyan: #008877;
+  --accent-green: #2a8a5a;
+
+  /* Override hardcoded border colors */
+  .border-\[\#1e1e1e\],
+  .border-\[\#242424\] {
+    border-color: var(--border);
+  }
+  .divide-\[\#1e1e1e\] > * + * {
+    border-color: var(--border);
+  }
+
+  /* Override white opacity text → dark opacity */
+  .text-white\/40 {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  .text-white\/50 {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .text-white\/60 {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .text-white\/70 {
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .text-white\/80 {
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Override white opacity borders */
+  .border-white\/30 {
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+  .hover\:border-white\/50:hover,
+  .group:hover .group-hover\:border-white\/50 {
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* CTA buttons: invert (white bg → dark bg) */
+  .bg-white.text-black {
+    background-color: #111111;
+    color: #f8f8f8;
+  }
+  .hover\:bg-white\/85:hover {
+    background-color: rgba(17, 17, 17, 0.85);
+  }
+  .hover\:bg-white\/90:hover {
+    background-color: rgba(17, 17, 17, 0.9);
+  }
+}
+
 @keyframes blink {
   0%,
   100% {

@@ -41,3 +41,55 @@ test.describe("Accessibility", () => {
     expect(results.violations).toEqual([]);
   });
 });
+
+test.describe("Accessibility — Light mode", () => {
+  test("homepage in light mode has no axe-core violations", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    // Apply light theme directly — tests that light mode CSS has no a11y violations
+    await page.evaluate(() =>
+      document.documentElement.setAttribute("data-theme", "light"),
+    );
+
+    const theme = await page.evaluate(() =>
+      document.documentElement.getAttribute("data-theme"),
+    );
+    expect(theme).toBe("light");
+
+    await page.evaluate(async () => {
+      await new Promise<void>((resolve) => {
+        const distance = 300;
+        const delay = 100;
+        const timer = setInterval(() => {
+          window.scrollBy(0, distance);
+          if (
+            window.scrollY + window.innerHeight >=
+            document.body.scrollHeight
+          ) {
+            clearInterval(timer);
+            window.scrollTo(0, 0);
+            resolve();
+          }
+        }, delay);
+      });
+    });
+    await page.waitForTimeout(500);
+
+    const results = await new AxeBuilder({ page }).analyze();
+
+    if (results.violations.length > 0) {
+      const report = results.violations
+        .map(
+          (v) =>
+            `[${v.impact}] ${v.id}: ${v.description}\n  Nodes: ${v.nodes.map((n) => n.html).join(", ")}`,
+        )
+        .join("\n\n");
+      console.error("Axe violations (light mode):\n" + report);
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+});
