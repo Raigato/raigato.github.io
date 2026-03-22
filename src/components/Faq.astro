@@ -1,0 +1,55 @@
+---
+const faqs = [
+  {
+    question: "Are you available for new projects?",
+    answer:
+      "Yes, I am currently available for new freelance projects. I take on web application development, AI integration, and growth automation work remotely. Get in touch via email at gabriel.raymondou@gmail.com.",
+  },
+  {
+    question: "What technologies do you work with?",
+    answer:
+      "I specialize in TypeScript, React, Next.js, Node.js, and AWS. I also work extensively with AI integrations, REST APIs, and modern frontend tooling including Tailwind CSS and Astro.",
+  },
+  {
+    question: "Do you work remotely?",
+    answer:
+      "Yes, I work fully remotely and am available for clients worldwide. I am based in Cannes, France, but collaborate across different time zones.",
+  },
+  {
+    question: "What types of projects do you take on?",
+    answer:
+      "I work on web application development, AI and LLM integrations, marketing automation, and growth engineering. This includes SaaS products, internal tools, dashboards, and automation pipelines.",
+  },
+];
+---
+
+<section id="faq" aria-label="FAQ" class="py-24 px-6 border-t border-[#1e1e1e]">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
+      <h2 class="font-mono text-xs text-white/25 tracking-widest">// FAQ</h2>
+    </div>
+    <dl class="flex flex-col divide-y divide-[#1e1e1e]">
+      {
+        faqs.map((faq) => (
+          <div class="py-6">
+            <dt class="font-mono text-sm text-white/80 tracking-wide mb-3">{faq.question}</dt>
+            <dd class="text-white/50 text-sm leading-relaxed">{faq.answer}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from("#faq", {
+    opacity: 0,
+    y: 30,
+    duration: 0.7,
+    ease: "power2.out",
+    scrollTrigger: { trigger: "#faq", start: "top 85%" },
+  });
+</script>

@@ -8,6 +8,7 @@ import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero.astro";
 import Navbar from "../components/Navbar.astro";
 import Projects from "../components/Projects.astro";
+import Faq from "../components/Faq.astro";
 import PostHog from "../components/posthog.astro";
 ---
 
@@ -47,52 +48,104 @@ import PostHog from "../components/posthog.astro";
     <link rel="alternate" hreflang="en" href="https://raigato.github.io/" />
 
     <!-- Structured Data -->
+    <!-- ProfilePage: Google-supported rich result for personal profile/portfolio pages -->
     <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "@id": "https://raigato.github.io/#gabriel",
-        "name": "Gabriel Raymondou",
-        "url": "https://raigato.github.io",
-        "email": "gabriel.raymondou@gmail.com",
-        "image": "https://raigato.github.io/images/portrait.jpg",
-        "jobTitle": "Freelance Fullstack Developer",
-        "description": "Freelance fullstack developer specializing in web apps, AI integrations, and growth automation. Based in Cannes, France.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Cannes",
-          "addressCountry": "FR"
-        },
-        "hasOccupation": {
-          "@type": "Occupation",
-          "name": "Software Engineer",
-          "occupationLocation": { "@type": "City", "name": "Cannes" }
-        },
-        "sameAs": [
-          "https://github.com/raigato",
-          "https://linkedin.com/in/gabriel-raymondou",
-          "https://x.com/raigatodev"
-        ],
-        "knowsAbout": ["TypeScript", "React", "Next.js", "AWS", "AI integration", "web application development", "growth engineering"]
+        "@type": "ProfilePage",
+        "url": "https://raigato.github.io/",
+        "name": "Gabriel Raymondou — Freelance Fullstack Developer",
+        "dateCreated": "2024-01-01",
+        "dateModified": "2026-03-22",
+        "mainEntity": {
+          "@type": "Person",
+          "@id": "https://raigato.github.io/#gabriel",
+          "name": "Gabriel Raymondou",
+          "url": "https://raigato.github.io",
+          "email": "gabriel.raymondou@gmail.com",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://raigato.github.io/images/portrait.jpg",
+            "width": 400,
+            "height": 400
+          },
+          "jobTitle": "Freelance Fullstack Developer",
+          "description": "Freelance fullstack developer specializing in web apps, AI integrations, and growth automation. Based in Cannes, France.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Cannes",
+            "addressCountry": "FR"
+          },
+          "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Software Engineer",
+            "occupationLocation": { "@type": "City", "name": "Cannes" }
+          },
+          "sameAs": [
+            "https://github.com/raigato",
+            "https://linkedin.com/in/gabriel-raymondou",
+            "https://x.com/raigatodev"
+          ],
+          "knowsAbout": ["TypeScript", "React", "Next.js", "AWS", "AI integration", "web application development", "growth engineering"]
+        }
       }
     </script>
+    <!-- WebSite with SearchAction: enables Sitelinks Searchbox eligibility -->
     <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Gabriel Raymondou",
-        "url": "https://raigato.github.io"
+        "url": "https://raigato.github.io",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://raigato.github.io/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
       }
     </script>
+    <!-- FAQPage: Google-supported rich result — shows expandable Q&As in SERPs -->
     <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Gabriel Raymondou — Freelance Development",
-        "provider": { "@id": "https://raigato.github.io/#gabriel" },
-        "serviceType": ["Web Application Development", "AI Integration", "Growth Engineering", "Marketing Automation"],
-        "areaServed": "Worldwide (Remote)",
-        "url": "https://raigato.github.io"
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Are you available for new projects?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, I am currently available for new freelance projects. I take on web application development, AI integration, and growth automation work remotely. Get in touch via email at gabriel.raymondou@gmail.com."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What technologies do you work with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "I specialize in TypeScript, React, Next.js, Node.js, and AWS. I also work extensively with AI integrations, REST APIs, and modern frontend tooling including Tailwind CSS and Astro."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work remotely?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, I work fully remotely and am available for clients worldwide. I am based in Cannes, France, but collaborate across different time zones."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of projects do you take on?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "I work on web application development, AI and LLM integrations, marketing automation, and growth engineering. This includes SaaS products, internal tools, dashboards, and automation pipelines."
+            }
+          }
+        ]
       }
     </script>
   </head>
@@ -104,6 +157,7 @@ import PostHog from "../components/posthog.astro";
       <About />
       <Projects />
       <Experience />
+      <Faq />
       <Contact />
     </main>
     <Footer />
