@@ -30,9 +30,11 @@ const faqs = [
     </div>
     <dl class="flex flex-col divide-y divide-[#1e1e1e]">
       {
-        faqs.map((faq) => (
+        faqs.map((faq, i) => (
           <div class="py-6">
-            <dt class="font-mono text-sm text-white/80 tracking-wide mb-3">{faq.question}</dt>
+            <dt class="font-mono text-sm text-white/80 tracking-wide mb-3">
+              <span class="text-white/25 mr-3">{String(i + 1).padStart(2, "0")}.</span>{faq.question}
+            </dt>
             <dd class="text-white/50 text-sm leading-relaxed">{faq.answer}</dd>
           </div>
         ))
