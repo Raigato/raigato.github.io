@@ -13,22 +13,22 @@ const { project } = Astro.props;
 >
   <div class="p-4 flex flex-col justify-between overflow-hidden">
     <div>
-      <p class="font-mono text-xs text-white/25 mb-1">{project.number} —</p>
+      <p class="font-mono text-xs text-white/50 mb-1">{project.number} —</p>
       <h3 class="font-mono text-base font-bold text-white mb-2 tracking-tight">{project.title}</h3>
       <p class="text-sm text-white/50 leading-relaxed">{project.description}</p>
     </div>
     <div class="mt-4 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
-      <div class="flex gap-1.5 flex-wrap">
+      <ul class="flex gap-1.5 flex-wrap list-none p-0 m-0">
         {project.tags.map((tag) => (
-          <span class="font-mono text-xs border border-[#242424] text-white/30 px-2 py-0.5 tracking-wide">{tag}</span>
+          <li class="font-mono text-xs border border-[#242424] text-white/50 px-2 py-0.5 tracking-wide">{tag}</li>
         ))}
-      </div>
+      </ul>
       <div class="flex gap-3 items-center">
         {project.github && (
-          <a href={project.github} class="font-mono text-xs text-white/30 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer">GH ↗</a>
+          <a href={project.github} class="font-mono text-xs text-white/50 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} on GitHub`}>GH ↗</a>
         )}
         {project.url && (
-          <a href={project.url} class="font-mono text-xs text-white/30 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer">LIVE ↗</a>
+          <a href={project.url} class="font-mono text-xs text-white/50 hover:text-white/70 transition-colors duration-200" target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} live`}>LIVE ↗</a>
         )}
       </div>
     </div>

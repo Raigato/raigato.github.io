@@ -5,14 +5,16 @@ import ProjectCard from "./ProjectCard.astro";
 
 <section id="projects" aria-label="Selected Work" class="py-24 px-6 border-t border-[#1e1e1e]">
   <div class="max-w-6xl mx-auto">
-    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/25 tracking-widest">
-      <h2 class="font-mono text-xs text-white/25 tracking-widest">// SELECTED WORK</h2><span>03 / 06</span>
+    <div class="flex justify-between items-center mb-12 font-mono text-xs text-white/50 tracking-widest">
+      <h2 class="font-mono text-xs text-white/50 tracking-widest">// SELECTED WORK</h2><span>03 / 06</span>
     </div>
-    <div id="projects-list">
+    <ul id="projects-list" class="list-none p-0 m-0">
       {projects.map((project) => (
-        <ProjectCard project={project} />
+        <li class="list-none">
+          <ProjectCard project={project} />
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 </section>
 

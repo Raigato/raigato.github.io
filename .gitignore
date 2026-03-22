@@ -23,6 +23,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# playwright
+playwright-report/
+test-results/
+
 # project-local tool dirs
 .obsidian/
 .vscode/

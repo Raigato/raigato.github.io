@@ -1,7 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
   "files": {
-    "includes": ["src/**", "scripts/**", "*.ts", "*.json", "!biome.json"]
+    "includes": [
+      "src/**",
+      "e2e/**",
+      "scripts/**",
+      "*.ts",
+      "*.json",
+      "!biome.json"
+    ]
   },
   "assist": {
     "enabled": true,

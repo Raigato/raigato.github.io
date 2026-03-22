@@ -48,14 +48,14 @@ const colorData = JSON.stringify(colorRows);
         class="block"
         aria-label="ASCII portrait of Gabriel Raymondou"></canvas>
       <script is:inline type="application/json" id="ascii-colors" set:html={colorData} />
-      <div class="flex gap-4 mt-2 hidden md:flex">
-        <p class="font-mono text-[10px] text-white/20 tracking-widest">[ HOVER ]</p>
-        <p class="font-mono text-[10px] text-white/20 tracking-widest">[ CLICK ]</p>
+      <div class="flex gap-4 mt-2 hidden md:flex" aria-hidden="true">
+        <p class="font-mono text-[10px] text-white/50 tracking-widest">[ HOVER ]</p>
+        <p class="font-mono text-[10px] text-white/50 tracking-widest">[ CLICK ]</p>
       </div>
     </div>
     <!-- Terminal Typewriter -->
     <div class="terminal font-mono order-1 md:order-2 min-h-[220px]">
-      <p class="text-white/30 text-sm mb-4">~/raigato $</p>
+      <p class="text-white/50 text-sm mb-4">~/raigato $</p>
       <div id="terminal-lines" class="space-y-1 text-sm">
         <!-- Lines injected by GSAP -->
         <noscript>
@@ -122,7 +122,7 @@ const colorData = JSON.stringify(colorRows);
   }): Promise<void> {
     return new Promise((resolve) => {
       const el = document.createElement("div");
-      el.innerHTML = `<span class="text-white/40">${line.key}</span> → <span style="color:${line.color || "inherit"}"></span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`;
+      el.innerHTML = `<span class="text-white/60">${line.key}</span> → <span style="color:${line.color || "inherit"}"></span><span class="cursor" style="animation: blink 1s infinite; opacity:1">_</span>`;
       terminalLines.appendChild(el);
 
       const valSpan = el.querySelectorAll("span")[1] as HTMLElement;
