@@ -4,9 +4,27 @@ import { expect, test } from "@playwright/test";
 test.describe("Accessibility", () => {
   test("homepage has no axe-core violations", async ({ page }) => {
     await page.goto("/");
-
-    // Wait for the page to be fully rendered
     await page.waitForLoadState("networkidle");
+
+    // Scroll through the full page so scroll-triggered sections are rendered
+    await page.evaluate(async () => {
+      await new Promise<void>((resolve) => {
+        const distance = 300;
+        const delay = 100;
+        const timer = setInterval(() => {
+          window.scrollBy(0, distance);
+          if (
+            window.scrollY + window.innerHeight >=
+            document.body.scrollHeight
+          ) {
+            clearInterval(timer);
+            window.scrollTo(0, 0);
+            resolve();
+          }
+        }, delay);
+      });
+    });
+    await page.waitForTimeout(500);
 
     const results = await new AxeBuilder({ page }).analyze();
 
