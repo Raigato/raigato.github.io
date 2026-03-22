@@ -21,7 +21,7 @@ import PostHog from "../components/posthog.astro";
     <meta name="theme-color" content="#0a0a0a" />
 
     <title>Freelance Fullstack Developer — Gabriel Raymondou</title>
-    <meta name="description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
+    <meta name="description" content="Freelance fullstack developer based in Cannes, France — web apps, AI integrations, and automation. React, Next.js, TypeScript. Available for remote projects worldwide." />
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -31,7 +31,7 @@ import PostHog from "../components/posthog.astro";
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://raigato.github.io/" />
     <meta property="og:title" content="Freelance Fullstack Developer — Gabriel Raymondou" />
-    <meta property="og:description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
+    <meta property="og:description" content="Freelance fullstack developer based in Cannes, France — web apps, AI integrations, and automation. React, Next.js, TypeScript. Available for remote projects worldwide." />
     <meta property="og:image" content="https://raigato.github.io/images/og-image.jpg" />
 
     <!-- Twitter Card -->
@@ -39,7 +39,7 @@ import PostHog from "../components/posthog.astro";
     <meta name="twitter:site" content="@raigatodev" />
     <meta name="twitter:creator" content="@raigatodev" />
     <meta name="twitter:title" content="Freelance Fullstack Developer — Gabriel Raymondou" />
-    <meta name="twitter:description" content="Freelance fullstack developer for hire — web apps, AI integrations, and automation. React, Next.js, TypeScript. Fast delivery, production-grade code." />
+    <meta name="twitter:description" content="Freelance fullstack developer based in Cannes, France — web apps, AI integrations, and automation. React, Next.js, TypeScript. Available for remote projects worldwide." />
     <meta name="twitter:image" content="https://raigato.github.io/images/og-image.jpg" />
 
     <link rel="canonical" href="https://raigato.github.io/" />
@@ -51,15 +51,22 @@ import PostHog from "../components/posthog.astro";
       {
         "@context": "https://schema.org",
         "@type": "Person",
+        "@id": "https://raigato.github.io/#gabriel",
         "name": "Gabriel Raymondou",
         "url": "https://raigato.github.io",
         "email": "gabriel.raymondou@gmail.com",
+        "image": "https://raigato.github.io/images/portrait.jpg",
         "jobTitle": "Freelance Fullstack Developer",
         "description": "Freelance fullstack developer specializing in web apps, AI integrations, and growth automation. Based in Cannes, France.",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Cannes",
           "addressCountry": "FR"
+        },
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Software Engineer",
+          "occupationLocation": { "@type": "City", "name": "Cannes" }
         },
         "sameAs": [
           "https://github.com/raigato",
@@ -74,6 +81,17 @@ import PostHog from "../components/posthog.astro";
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Gabriel Raymondou",
+        "url": "https://raigato.github.io"
+      }
+    </script>
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Gabriel Raymondou — Freelance Development",
+        "provider": { "@id": "https://raigato.github.io/#gabriel" },
+        "serviceType": ["Web Application Development", "AI Integration", "Growth Engineering", "Marketing Automation"],
+        "areaServed": "Worldwide (Remote)",
         "url": "https://raigato.github.io"
       }
     </script>
